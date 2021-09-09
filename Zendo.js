@@ -1,26 +1,29 @@
-const { WAConnection, MessageType } = require('@adiwajshing/baileys');
+const { WAConnection, MessageType, Mimetype } = require('@adiwajshing/baileys');
 const fs = require('fs');
 const prefix = ':'
 
 async function iniciar () { 
         const client = new WAConnection()
-
         client.logger.level = 'warn'
 
+//llamar al código QR
         client.on('qr', () => {
         })
 
-       fs.existsSync('./ZendoR.json') && client.loadAuthInfo('./ZendoR.json')
+//crear un archivo Json para guardar información: ID del cliente, Token y Keys del cliente y del SERVER.
+        fs.existsSync('./Samu330.json') && client.loadAuthInfo('./Samu330.json')
 
+//Conectando o reconectando
         client.on('connecting', () => {
         console.log('Conectando')
         })
 
+//La conexión fue en éxito👌🏻
         client.on('open', () => {
         console.log('Conectado exitosamente :D')
         })
         await client.connect({timeoutMs: 30*1000})
-        fs.writeFileSync('./ZendoR.json', JSON.stringify(client.base64EncodedAuthInfo(), null, '\t'))
+        fs.writeFileSync('./Samu330.json', JSON.stringify(client.base64EncodedAuthInfo(), null, '\t'))
         
 
 client.on('chat-update', async (sam) => {
@@ -43,7 +46,7 @@ const body = sam.message.conversation || sam.message[type].caption || sam.messag
 chats = (type === 'conversation') ? sam.message.conversation : (type === 'extendedTextMessage') ? sam.message.extendedTextMessage.text : ''
 budy = (type === 'conversation' && sam.message.conversation.startsWith(prefix)) ? sam.message.conversation : (type == 'imageMessage') && sam.message.imageMessage.caption.startsWith(prefix) ? sam.message.imageMessage.caption : (type == 'videoMessage') && sam.message.videoMessage.caption.startsWith(prefix) ? sam.message.videoMessage.caption : (type == 'extendedTextMessage') && sam.message.extendedTextMessage.text.startsWith(prefix) ? sam.message.extendedTextMessage.text : ''
 
-if (prefix != ":") {
+if (prefix != "") {
 if (!body.startsWith(prefix)) {
 cmd = false
 comm = ""
@@ -64,7 +67,7 @@ const isCmd = budy.startsWith(prefix)
 const q = args.join(' ')
 const soyYo = client.user.jid
 const botNumber = client.user.jid.split("@")[0]
-const ownerNumber = ['934199112']
+const ownerNumber = ['51934199112@s.whatsapp.net']
 const isGroup = from.endsWith('@g.us')
 const sender = sam.key.fromMe ? client.user.jid : isGroup ? sam.participant : sam.key.remoteJid
 const senderNumber = sender.split("@")[0]
